@@ -43,7 +43,7 @@ export const SITE_CONFIG = {
   architecture: "Universal Binary (Apple Silicon M1/M2/M3/M4 & Intel Core 64-bit)",
   minIOSVersion: "iOS 12.0 or iPadOS 12.0 or newer",
   sha256Dmg: "d8e75e3b5a5b51b017463112cace8ab28e86516b4ef88e47ca1c920c5f19cc87",
-  dmgSize: "4.6 MB",
+  dmgSize: "4.8 MB",
   deepLinkScheme: "psgcast",
   
   // Configurable URLs via env
