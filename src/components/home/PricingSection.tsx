@@ -187,7 +187,7 @@ export const PricingSection: React.FC = () => {
                 {/* Purchase Button */}
                 <div className="pt-8 mt-6 border-t border-slate-100 space-y-3">
                   <a
-                    href={`${plan.checkoutUrl}?currency=${region === "india" ? "INR" : "USD"}&return_url=${encodeURIComponent(`${SITE_CONFIG.siteUrl}/activate`)}`}
+                    href={`${plan.checkoutUrl}?currency=${region === "india" ? "INR" : "USD"}&redirect_url=${encodeURIComponent(`${SITE_CONFIG.siteUrl}/activate`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block w-full"
