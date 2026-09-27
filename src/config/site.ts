@@ -156,7 +156,7 @@ export const SITE_CONFIG = {
           "90 days of software updates & email support",
         ],
       },
-      checkoutUrl: "https://checkout.dodopayments.com/buy/psgcast-pro-quarterly",
+      checkoutUrl: "https://checkout.dodopayments.com/buy/pdt_0NoVWBb7EX3DSTWl4hPh8",
     },
     {
       id: "yearly",
@@ -199,7 +199,7 @@ export const SITE_CONFIG = {
           "Instant license re-hosting for Mac upgrades",
         ],
       },
-      checkoutUrl: "https://checkout.dodopayments.com/buy/psgcast-pro-yearly",
+      checkoutUrl: "https://checkout.dodopayments.com/buy/pdt_0NoVWUZv6VOozdeYAed2Q",
     },
     {
       id: "lifetime",
@@ -242,7 +242,7 @@ export const SITE_CONFIG = {
           "VIP Direct Developer Support channel",
         ],
       },
-      checkoutUrl: "https://checkout.dodopayments.com/buy/psgcast-pro-lifetime",
+      checkoutUrl: "https://checkout.dodopayments.com/buy/pdt_0NoVWmxaH4ETmZOImoA7U",
     },
   ] as PricingPlan[],
 
