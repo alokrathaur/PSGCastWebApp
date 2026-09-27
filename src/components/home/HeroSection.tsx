@@ -55,82 +55,133 @@ export const HeroSection: React.FC = () => {
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-indigo-100/50 blur-3xl pointer-events-none" />
 
       <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Top Badges & Subtitle */}
-        <div className="text-center max-w-3xl mx-auto space-y-5">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs backdrop-blur-md">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-semibold tracking-wide text-slate-800">
-              Native macOS 14+ Screen Mirroring
-            </span>
-            <span className="text-slate-300">•</span>
-            <span className="text-xs text-blue-600 font-mono font-semibold">
-              60 FPS Metal GPU
-            </span>
+        {/* 2-Column Hero: Left-aligned Text & Right-aligned Mirror Device Image */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          {/* Left Column: Content & Actions (Left-aligned) */}
+          <div className="lg:col-span-6 space-y-6 text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs backdrop-blur-md">
+              <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-xs font-semibold tracking-wide text-slate-800">
+                Native macOS 14+ Screen Mirroring
+              </span>
+              <span className="text-slate-300">•</span>
+              <span className="text-xs text-blue-600 font-mono font-semibold">
+                60 FPS Metal GPU
+              </span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.12]">
+              Cast iPhone to Mac with{" "}
+              <span className="text-gradient-blue-violet">Ultra-Low ~12ms</span>{" "}
+              Latency
+            </h1>
+
+            <p className="text-lg text-slate-600 leading-relaxed font-normal max-w-xl">
+              Direct USB cable & Wi-Fi AirPlay streaming directly into a hardware-accelerated Metal window with <strong className="font-bold text-slate-900">OBS</strong> support. Built for creators, developers, streamers, and mobile pros.
+            </p>
+
+            {/* Action CTAs */}
+            <div className="flex flex-wrap items-center justify-start gap-3.5 pt-1">
+              <Link to="/download">
+                <Button
+                  variant="gradient"
+                  size="lg"
+                  className="h-13 px-7 shadow-lg shadow-blue-500/25 group text-base font-semibold"
+                >
+                  <Download className="w-5 h-5 mr-2 group-hover:-translate-y-0.5 transition-transform" />
+                  Download for macOS
+                  <span className="ml-2 text-xs opacity-90 font-normal bg-white/20 px-2 py-0.5 rounded-full">
+                    v{SITE_CONFIG.appVersion}
+                  </span>
+                </Button>
+              </Link>
+
+              <Link to="/activate">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="h-13 px-6 border-indigo-200 text-indigo-700 hover:text-indigo-900 hover:bg-indigo-50/80 text-base font-semibold shadow-xs"
+                >
+                  <KeyRound className="w-4 h-4 mr-2 text-indigo-600" />
+                  Activate License
+                </Button>
+              </Link>
+
+              <Link to="/features">
+                <Button variant="ghost" size="lg" className="h-13 px-5 text-slate-700 hover:text-slate-900 font-semibold">
+                  Features →
+                </Button>
+              </Link>
+            </div>
+
+            {/* Trust points */}
+            <div className="flex flex-wrap items-center justify-start gap-5 pt-3 text-xs text-slate-500 font-semibold border-t border-slate-200/80">
+              <div className="flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <span>100% On-Device Privacy</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Zap className="w-4 h-4 text-amber-500" />
+                <span>~12ms Direct USB Latency</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Layers className="w-4 h-4 text-violet-600" />
+                <span>Apple VideoToolbox H.264</span>
+              </div>
+            </div>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.1]">
-            Cast iPhone to Mac with{" "}
-            <span className="text-gradient-blue-violet">Ultra-Low ~12ms</span>{" "}
-            Latency
-          </h1>
+          {/* Right Column: Mirror Image (Right-aligned, Uncropped) */}
+          <div className="lg:col-span-6 relative flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-[640px] group">
+              {/* Soft Ambient Radial Glow */}
+              <div className="absolute -inset-4 bg-gradient-to-tr from-blue-400/20 via-indigo-300/15 to-purple-400/20 rounded-3xl blur-2xl opacity-80 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal">
-            Direct USB cable & Wi-Fi AirPlay streaming directly into a hardware-accelerated Metal window with <strong className="font-bold text-slate-900">OBS</strong> support. Built for creators, developers, streamers, and mobile pros.
-          </p>
+              {/* Floating Status Badges */}
+              <div className="absolute -top-3 right-6 z-20 hidden sm:flex items-center gap-2 bg-white/95 backdrop-blur-md border border-slate-200/90 px-3.5 py-1.5 rounded-full shadow-lg text-xs font-semibold text-slate-800">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Apple Metal 3 • 60 FPS Sync</span>
+              </div>
 
-          {/* Action CTAs */}
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
-            <Link to="/download">
-              <Button
-                variant="gradient"
-                size="lg"
-                className="h-14 px-8 shadow-lg shadow-blue-500/25 group text-base font-semibold"
-              >
-                <Download className="w-5 h-5 mr-2.5 group-hover:-translate-y-0.5 transition-transform" />
-                Download for macOS
-                <span className="ml-2.5 text-xs opacity-90 font-normal bg-white/20 px-2.5 py-0.5 rounded-full">
-                  v{SITE_CONFIG.appVersion}
-                </span>
-              </Button>
-            </Link>
+              <div className="absolute -bottom-3 left-6 z-20 hidden sm:flex items-center gap-2 bg-slate-900/95 backdrop-blur-md border border-slate-700/80 px-3.5 py-1.5 rounded-full shadow-xl text-xs font-medium text-slate-200">
+                <Zap className="w-3.5 h-3.5 text-amber-400" />
+                <span>Direct USB & AirPlay (~12ms)</span>
+              </div>
 
-            <Link to="/activate">
-              <Button
-                variant="outline"
-                size="lg"
-                className="h-14 px-8 border-indigo-200 text-indigo-700 hover:text-indigo-900 hover:bg-indigo-50/80 text-base font-semibold shadow-xs"
-              >
-                <KeyRound className="w-4 h-4 mr-2 text-indigo-600" />
-                Activate License
-              </Button>
-            </Link>
-
-            <Link to="/features">
-              <Button variant="ghost" size="lg" className="h-14 px-6 text-slate-700 hover:text-slate-900 font-semibold">
-                View Features →
-              </Button>
-            </Link>
-          </div>
-
-          {/* Trust points */}
-          <div className="flex flex-wrap items-center justify-center gap-6 pt-4 text-xs text-slate-500 font-semibold">
-            <div className="flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              <span>100% On-Device Privacy</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Zap className="w-4 h-4 text-amber-500" />
-              <span>~12ms Direct USB Latency</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Layers className="w-4 h-4 text-violet-600" />
-              <span>Apple VideoToolbox H.264</span>
+              {/* High-Resolution Uncropped Mirror Showcase */}
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-indigo-950/10 border border-slate-200/70 bg-white">
+                <picture>
+                  <source srcSet="/assets/hero-mirror-showcase.webp" type="image/webp" />
+                  <img
+                    src="/assets/hero-mirror-showcase.png"
+                    alt="PSG Cast — iPhone to Mac Screen Mirroring at 60 FPS"
+                    className="w-full h-auto object-contain transform transition-transform duration-500 group-hover:scale-[1.01]"
+                    loading="eager"
+                    width={1376}
+                    height={818}
+                  />
+                </picture>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Interactive Device Mockup Simulator */}
-        <div className="mt-14 relative max-w-5xl mx-auto">
+        {/* Interactive Device Mockup Simulator Section */}
+        <div className="mt-20 pt-16 border-t border-slate-200/80">
+          <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[11px] font-semibold text-blue-700 font-mono">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>LIVE INTERACTIVE SIMULATOR</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Test Real-Time Controls & Diagnostics HUD
+            </h2>
+            <p className="text-sm text-slate-600">
+              Simulate switching between USB direct cable and AirPlay transport, inspect live frame pipeline telemetry, and preview OBS Clean Capture mode.
+            </p>
+          </div>
+
+          <div className="relative max-w-5xl mx-auto">
           {/* Controls Bar */}
           <div className="flex flex-wrap items-center justify-between gap-3 mb-4 px-2">
             {/* Transport selector */}
@@ -388,6 +439,7 @@ export const HeroSection: React.FC = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 };
