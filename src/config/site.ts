@@ -42,14 +42,13 @@ export const SITE_CONFIG = {
   minMacOSVersion: "macOS 14.0 (Sonoma) or newer",
   architecture: "Universal Binary (Apple Silicon M1/M2/M3/M4 & Intel Core 64-bit)",
   minIOSVersion: "iOS 12.0 or iPadOS 12.0 or newer",
-  sha256Dmg: "d8e75e3b5a5b51b017463112cace8ab28e86516b4ef88e47ca1c920c5f19cc87",
-  dmgSize: "4.8 MB",
+  sha256Dmg: "0438d05eb7de1a2bfae357ffe4e78f54f8a6959098b227a1f0d27676f8898486",
+  dmgSize: "4.6 MB",
   deepLinkScheme: "psgcast",
   
   // Configurable URLs via env
   downloadDmgUrl:
-    import.meta.env.VITE_DOWNLOAD_DMG_URL ||
-    "https://github.com/alokrathaur/PSG-Cast/releases/download/v1.0.0/PSGCast.dmg",
+    import.meta.env.VITE_DOWNLOAD_DMG_URL || "/PSGCast.dmg",
   downloadPkgUrl:
     import.meta.env.VITE_DOWNLOAD_PKG_URL ||
     "https://github.com/alokrathaur/PSG-Cast/releases/download/v1.0.0/PSGCast.pkg",
