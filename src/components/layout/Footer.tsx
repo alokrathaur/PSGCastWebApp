@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
-  Twitter,
   Download,
   KeyRound,
   Cpu,
@@ -18,7 +17,7 @@ export const Footer: React.FC = () => {
   return (
     <footer className="relative bg-[#F8FAFC] border-t border-slate-200 text-slate-600 pt-16 pb-12 overflow-hidden">
       <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 pb-12 border-b border-slate-200">
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
             <Link to="/" className="flex items-center gap-3 group">
@@ -52,45 +51,6 @@ export const Footer: React.FC = () => {
               <span className="text-slate-600 bg-white px-2.5 py-1 rounded-full border border-slate-200 font-medium">
                 macOS 14.0+ Sonoma
               </span>
-            </div>
-
-            <div className="flex items-center gap-2.5 pt-2">
-              <a
-                href={SITE_CONFIG.twitterUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-black hover:border-slate-300 shadow-2xs hover:shadow-xs hover:-translate-y-0.5 transition-all"
-                aria-label="Twitter X"
-                title="Twitter / X"
-              >
-                <Twitter className="w-4 h-4" />
-              </a>
-              <a
-                href={SITE_CONFIG.youtubeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center hover:border-red-200 shadow-2xs hover:shadow-xs hover:-translate-y-0.5 transition-all group"
-                aria-label="YouTube Channel"
-                title="YouTube — @PrimeStateGaming"
-              >
-                <img
-                  src="/assets/youtube.png"
-                  alt="YouTube"
-                  className="w-5 h-5 object-contain group-hover:scale-110 transition-transform"
-                />
-              </a>
-              <a
-                href={`mailto:${SITE_CONFIG.supportEmail}`}
-                className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center hover:border-blue-200 shadow-2xs hover:shadow-xs hover:-translate-y-0.5 transition-all group"
-                aria-label="Customer Support"
-                title={`Customer Support — ${SITE_CONFIG.supportEmail}`}
-              >
-                <img
-                  src="/assets/gmail.png"
-                  alt="Gmail"
-                  className="w-4.5 h-4.5 object-contain group-hover:scale-110 transition-transform"
-                />
-              </a>
             </div>
           </div>
 
@@ -205,6 +165,30 @@ export const Footer: React.FC = () => {
                   <span>Customer Support</span>
                 </a>
               </li>
+            </ul>
+          </div>
+
+          {/* Column 4: Follow Us */}
+          <div>
+            <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4">
+              Follow Us
+            </h4>
+            <ul className="space-y-2.5 text-sm">
+              <li>
+                <a
+                  href={SITE_CONFIG.twitterUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-black transition-colors text-slate-600 flex items-center gap-2 font-medium group"
+                >
+                  <img
+                    src="/assets/x.png"
+                    alt="Twitter / X"
+                    className="w-4 h-4 object-contain rounded-xs shrink-0 group-hover:scale-110 transition-transform"
+                  />
+                  <span>Twitter / X</span>
+                </a>
+              </li>
               <li>
                 <a
                   href={SITE_CONFIG.youtubeUrl}
@@ -217,7 +201,37 @@ export const Footer: React.FC = () => {
                     alt="YouTube"
                     className="w-4 h-4 object-contain shrink-0 group-hover:scale-110 transition-transform"
                   />
-                  <span>YouTube Channel</span>
+                  <span>YouTube</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={SITE_CONFIG.instagramPsgUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-pink-600 transition-colors text-slate-600 flex items-center gap-2 font-medium group"
+                >
+                  <img
+                    src="/assets/instagram.png"
+                    alt="Instagram"
+                    className="w-4 h-4 object-contain rounded-sm shrink-0 group-hover:scale-110 transition-transform"
+                  />
+                  <span>@primestategaming</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={SITE_CONFIG.instagramLegendPrixUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-pink-600 transition-colors text-slate-600 flex items-center gap-2 font-medium group"
+                >
+                  <img
+                    src="/assets/instagram.png"
+                    alt="Instagram"
+                    className="w-4 h-4 object-contain rounded-sm shrink-0 group-hover:scale-110 transition-transform"
+                  />
+                  <span>@legendprixai</span>
                 </a>
               </li>
             </ul>

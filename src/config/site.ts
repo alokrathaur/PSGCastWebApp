@@ -59,6 +59,8 @@ export const SITE_CONFIG = {
   supportEmail: import.meta.env.VITE_SUPPORT_EMAIL || "primestategaming@gmail.com",
   twitterUrl: import.meta.env.VITE_TWITTER_URL || "https://x.com/alok8feb",
   youtubeUrl: import.meta.env.VITE_YOUTUBE_URL || "https://www.youtube.com/@PrimeStateGaming",
+  instagramPsgUrl: "https://instagram.com/primestategaming",
+  instagramLegendPrixUrl: "https://www.instagram.com/legendprixai/",
 
   // Core metrics
   metrics: {
