@@ -24,18 +24,16 @@ export const Navbar: React.FC = () => {
     >
       <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Brand Logo & Title */}
-        <Link to="/" className="flex items-center gap-3.5 group">
-          <div className="relative">
-            <div className="w-14 h-14 sm:w-[60px] sm:h-[60px] group-hover:scale-105 transition-transform duration-200 flex items-center justify-center shrink-0">
-              <img
-                src="/assets/icon_app.png"
-                alt="PSG Cast"
-                className="w-14 h-14 sm:w-[60px] sm:h-[60px] object-contain drop-shadow-md"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = "/logo.png";
-                }}
-              />
-            </div>
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl group-hover:scale-105 transition-transform duration-200 flex items-center justify-center shrink-0 shadow-sm shadow-slate-900/10">
+            <img
+              src="/assets/icon_app.png"
+              alt="PSG Cast"
+              className="w-full h-full object-contain rounded-xl drop-shadow-sm"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).src = "/logo.png";
+              }}
+            />
           </div>
           <div className="flex flex-col justify-center">
             <div className="flex items-center gap-2">

@@ -24,12 +24,12 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-200">
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
-            <Link to="/" className="flex items-center gap-3.5 group">
-              <div className="w-12 h-12 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-sm shadow-slate-900/10 shrink-0">
                 <img
                   src="/assets/icon_app.png"
                   alt="PSG Cast"
-                  className="w-12 h-12 object-contain drop-shadow-sm"
+                  className="w-full h-full object-contain rounded-xl drop-shadow-sm"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).src = "/logo.png";
                   }}
