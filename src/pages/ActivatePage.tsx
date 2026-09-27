@@ -39,35 +39,57 @@ export const ActivatePage: React.FC = () => {
   useEffect(() => {
     const tokenParam = searchParams.get("token");
     const emailParam = searchParams.get("email") || searchParams.get("customer_email");
-    const queryParam = tokenParam || emailParam || searchParams.get("query");
+    const paymentIdParam =
+      searchParams.get("payment_id") ||
+      searchParams.get("paymentId") ||
+      searchParams.get("subscription_id") ||
+      searchParams.get("checkout_id") ||
+      searchParams.get("id");
+    const queryParam = tokenParam || emailParam || paymentIdParam || searchParams.get("query");
+
+    if (emailParam) {
+      setInputQuery(emailParam.trim());
+    } else if (queryParam) {
+      setInputQuery(queryParam.trim());
+    }
 
     if (queryParam) {
       const clean = queryParam.trim();
-      setInputQuery(clean);
       handleExecuteLookup(clean);
     }
   }, [searchParams]);
 
-  // Central lookup execution
-  const handleExecuteLookup = async (queryToLookup: string) => {
+  // Central lookup execution with auto-retry for in-flight webhooks
+  const handleExecuteLookup = async (queryToLookup: string, retryCount = 0) => {
     if (!queryToLookup.trim()) return;
     setStatus("loading");
     setErrorMessage(null);
 
     const res = await apiService.lookupLicense(queryToLookup);
-    setLookupResult(res);
 
     if (res.success && res.token) {
+      setLookupResult(res);
       setStatus("success");
+      // Auto-fill customer email into input field if available
+      if (res.customerEmail) {
+        setInputQuery(res.customerEmail);
+      }
       // Trigger deep link if user entered directly or was redirected from checkout
       if (!hasAttemptedAutoLaunch) {
         apiService.triggerMacAppDeepLink(res.token, res.customerEmail, res.plan);
         setHasAttemptedAutoLaunch(true);
       }
+    } else if (retryCount < 2 && (queryToLookup.startsWith("pay_") || queryToLookup.startsWith("sub_") || queryToLookup.includes("@"))) {
+      // If Dodo checkout redirected immediately and webhook is still in transit (1-2s), retry gently
+      setTimeout(() => {
+        handleExecuteLookup(queryToLookup, retryCount + 1);
+      }, 1500);
     } else if (res.status === "expired") {
+      setLookupResult(res);
       setStatus("expired");
       setErrorMessage(res.message || "Your PSG Cast subscription or license has expired.");
     } else {
+      setLookupResult(res);
       setStatus("error");
       setErrorMessage(
         res.message || "No active license found. Please check your purchase email or license token."
