@@ -164,22 +164,10 @@ export const ActivatePage: React.FC = () => {
                   variant="gradient"
                   size="md"
                   isLoading={status === "loading"}
-                  className="w-full sm:flex-1 justify-center shadow-md shadow-blue-500/20 font-semibold"
+                  className="w-full justify-center shadow-md shadow-blue-500/20 font-semibold"
                 >
                   Verify & Launch Mac App
                 </Button>
-
-                {/* Sample test token fill button */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setInputQuery("PSG-PRO-LIFETIME-DEMO-2026");
-                    handleExecuteLookup("PSG-PRO-LIFETIME-DEMO-2026");
-                  }}
-                  className="text-xs text-blue-600 hover:text-blue-700 underline font-mono shrink-0 py-2 font-medium"
-                >
-                  Try Sample Pro Token
-                </button>
               </div>
             </form>
 
