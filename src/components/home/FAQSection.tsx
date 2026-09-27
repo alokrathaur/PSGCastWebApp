@@ -47,6 +47,13 @@ export const FAQSection: React.FC = () => {
         "No. You do not need to install anything on your iPhone or iPad. PSG Cast runs a native AirPlay Bonjour receiver service on your Mac (port 7001) with hardware FairPlay decryption. Simply swipe down to open Control Center on your iOS device, tap 'Screen Mirroring', and select 'PSGCast'.",
     },
     {
+      id: "faq-airplay-permission",
+      category: "connectivity",
+      question: "Which macOS Privacy & Security setting is required for Wi-Fi AirPlay?",
+      answer:
+        "On macOS Sonoma (14+) and macOS Sequoia (15+), open System Settings → Privacy & Security → Screen & System Audio Recording, and toggle ON the switch next to PSG Cast.app. This permission allows PSG Cast to receive and decode incoming AirPlay video frames and capture synchronized iPhone stereo audio without installing any third-party audio drivers.",
+    },
+    {
       id: "faq-3",
       category: "installation",
       question: "What macOS versions and Mac models are supported?",

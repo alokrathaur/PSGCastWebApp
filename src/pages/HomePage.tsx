@@ -7,6 +7,7 @@ import { DouWanComparisonSection } from "@/components/home/DouWanComparisonSecti
 import { ShortcutsShowcase } from "@/components/home/ShortcutsShowcase";
 import { PricingSection } from "@/components/home/PricingSection";
 import { DownloadSection } from "@/components/home/DownloadSection";
+import { AirPlayPermissionGuide } from "@/components/home/AirPlayPermissionGuide";
 import { FAQSection } from "@/components/home/FAQSection";
 import { DownloadCTA } from "@/components/home/DownloadCTA";
 
@@ -41,7 +42,10 @@ export const HomePage: React.FC = () => {
       {/* 8. Download Hub: DMG, PKG, Homebrew Cask, SHA-256 & System Compatibility */}
       <DownloadSection />
 
-      {/* 9. Categorized & Searchable FAQ Accordions */}
+      {/* 9. macOS Privacy & Security Setting Guide for Wi-Fi AirPlay */}
+      <AirPlayPermissionGuide />
+
+      {/* 10. Categorized & Searchable FAQ Accordions */}
       <FAQSection />
 
       {/* 10. Bottom High-Impact Download CTA */}

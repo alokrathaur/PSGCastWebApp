@@ -8,6 +8,7 @@ import {
 import { SITE_CONFIG } from "@/config/site";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { AirPlayPermissionGuide } from "@/components/home/AirPlayPermissionGuide";
 
 export const DownloadPage: React.FC = () => {
   useEffect(() => {
@@ -125,7 +126,7 @@ export const DownloadPage: React.FC = () => {
               </div>
               <h4 className="text-base font-bold text-slate-900">Install to Apps</h4>
               <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                Double-click the downloaded disk image and drag the <strong>PSGCast</strong> icon into your <code>/Applications</code> folder.
+                Double-click the downloaded disk image and drag the <strong>PSG Cast</strong> icon into your <code>/Applications</code> folder.
               </p>
             </div>
 
@@ -133,9 +134,9 @@ export const DownloadPage: React.FC = () => {
               <div className="w-9 h-9 rounded-xl bg-purple-50 border border-purple-100 text-purple-600 font-bold flex items-center justify-center font-mono">
                 03
               </div>
-              <h4 className="text-base font-bold text-slate-900">Grant Permissions</h4>
+              <h4 className="text-base font-bold text-slate-900">Enable AirPlay Recording</h4>
               <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                Launch PSG Cast from Applications or Spotlight. Allow <strong>Local Network</strong> access for Wi-Fi AirPlay discovery.
+                In <strong>System Settings → Privacy & Security</strong>, enable <strong>Screen & System Audio Recording</strong> for PSG Cast.
               </p>
             </div>
 
@@ -149,6 +150,11 @@ export const DownloadPage: React.FC = () => {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* macOS Privacy & Security Setting Visual Guide for Wi-Fi AirPlay */}
+        <div className="mt-16 -mx-4 sm:mx-0">
+          <AirPlayPermissionGuide />
         </div>
 
         {/* System Requirements Matrix */}
