@@ -2,15 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import {
   Twitter,
-  Mail,
-  Youtube,
   Download,
   KeyRound,
   Cpu,
   Layers,
   CheckCircle2,
   Cast,
-  Smartphone,
 } from "lucide-react";
 import { SITE_CONFIG } from "@/config/site";
 import { Badge } from "@/components/ui/badge";
@@ -62,7 +59,7 @@ export const Footer: React.FC = () => {
                 href={SITE_CONFIG.twitterUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:border-slate-300 shadow-xs transition-colors"
+                className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-black hover:border-slate-300 shadow-2xs hover:shadow-xs hover:-translate-y-0.5 transition-all"
                 aria-label="Twitter X"
                 title="Twitter / X"
               >
@@ -72,19 +69,27 @@ export const Footer: React.FC = () => {
                 href={SITE_CONFIG.youtubeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-red-600 hover:border-red-200 shadow-xs transition-colors"
+                className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center hover:border-red-200 shadow-2xs hover:shadow-xs hover:-translate-y-0.5 transition-all group"
                 aria-label="YouTube Channel"
                 title="YouTube — @PrimeStateGaming"
               >
-                <Youtube className="w-4 h-4" />
+                <img
+                  src="/assets/youtube.png"
+                  alt="YouTube"
+                  className="w-5 h-5 object-contain group-hover:scale-110 transition-transform"
+                />
               </a>
               <a
                 href={`mailto:${SITE_CONFIG.supportEmail}`}
-                className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:border-slate-300 shadow-xs transition-colors"
+                className="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center hover:border-blue-200 shadow-2xs hover:shadow-xs hover:-translate-y-0.5 transition-all group"
                 aria-label="Customer Support"
-                title="Customer Support"
+                title={`Customer Support — ${SITE_CONFIG.supportEmail}`}
               >
-                <Mail className="w-4 h-4" />
+                <img
+                  src="/assets/gmail.png"
+                  alt="Gmail"
+                  className="w-4.5 h-4.5 object-contain group-hover:scale-110 transition-transform"
+                />
               </a>
             </div>
           </div>
@@ -190,10 +195,29 @@ export const Footer: React.FC = () => {
               <li>
                 <a
                   href={`mailto:${SITE_CONFIG.supportEmail}`}
-                  className="hover:text-blue-600 transition-colors text-slate-600 flex items-center gap-1.5 font-medium"
+                  className="hover:text-blue-600 transition-colors text-slate-600 flex items-center gap-2 font-medium group"
                 >
-                  <Mail className="w-3.5 h-3.5 text-blue-600" />
+                  <img
+                    src="/assets/gmail.png"
+                    alt="Gmail"
+                    className="w-4 h-4 object-contain shrink-0 group-hover:scale-110 transition-transform"
+                  />
                   <span>Customer Support</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={SITE_CONFIG.youtubeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-red-600 transition-colors text-slate-600 flex items-center gap-2 font-medium group"
+                >
+                  <img
+                    src="/assets/youtube.png"
+                    alt="YouTube"
+                    className="w-4 h-4 object-contain shrink-0 group-hover:scale-110 transition-transform"
+                  />
+                  <span>YouTube Channel</span>
                 </a>
               </li>
             </ul>
