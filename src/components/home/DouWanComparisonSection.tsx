@@ -147,12 +147,12 @@ export const DouWanComparisonSection: React.FC = () => {
             </a>
             <Link to="/download">
               <Button
-                variant="outline"
+                variant="ghost"
                 size="md"
-                className="border-white/40 text-white hover:bg-white/10 font-semibold"
+                className="bg-white/15 hover:bg-white/25 text-white hover:text-white border border-white/50 hover:border-white font-semibold backdrop-blur-xs transition-all shadow-xs flex items-center"
               >
-                <Download className="w-4 h-4 mr-1.5" />
-                <span>Download DMG</span>
+                <Download className="w-4 h-4 mr-1.5 text-white" />
+                <span className="text-white">Download DMG</span>
               </Button>
             </Link>
           </div>
