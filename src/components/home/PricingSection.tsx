@@ -13,9 +13,15 @@ import {
 import { SITE_CONFIG } from "@/config/site";
 import { Button } from "@/components/ui/button";
 
+// TEMPORARY REGION OVERRIDE FOR TESTING (Set to null to reset to normal device geo-detection)
+const TEST_REGION_OVERRIDE: "india" | "international" | null = "international";
+
 export const PricingSection: React.FC = () => {
   // Automatic Geo Location detection: Default to INR for India, USD for international
   const [region, setRegion] = useState<"india" | "international">(() => {
+    if (TEST_REGION_OVERRIDE) {
+      return TEST_REGION_OVERRIDE;
+    }
     try {
       if (typeof window !== "undefined") {
         const params = new URLSearchParams(window.location.search);
@@ -41,6 +47,11 @@ export const PricingSection: React.FC = () => {
   });
 
   useEffect(() => {
+    if (TEST_REGION_OVERRIDE) {
+      setRegion(TEST_REGION_OVERRIDE);
+      return;
+    }
+
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       if (params.get("currency") || params.get("geo") || params.get("region")) {
