@@ -13,8 +13,8 @@ import {
 import { SITE_CONFIG } from "@/config/site";
 import { Button } from "@/components/ui/button";
 
-// TEMPORARY REGION OVERRIDE FOR TESTING (Set to null to reset to normal device geo-detection)
-const TEST_REGION_OVERRIDE: "india" | "international" | null = "international";
+// REGION OVERRIDE FOR TESTING (null = normal automatic device geo-detection)
+const TEST_REGION_OVERRIDE: "india" | "international" | null = null;
 
 export const PricingSection: React.FC = () => {
   // Automatic Geo Location detection: Default to INR for India, USD for international
