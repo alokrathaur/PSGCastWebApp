@@ -130,27 +130,25 @@ export const PricingSection: React.FC = () => {
                     </h3>
                   </div>
 
-                  {/* Pricing Block: Price with superscript power-style rate */}
+                  {/* Pricing Block: Price, Strikethrough, and Elevated Superscript Rate */}
                   <div className="pb-4 border-b border-slate-100">
-                    <div className="flex items-baseline flex-wrap gap-2.5">
-                      <div className="inline-flex items-start">
-                        <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-                          {pricing.symbol}{pricing.price}
-                        </span>
-                        {/* Power of square / superscript styling right after price */}
-                        <sup
-                          className={`ml-1 -top-2 relative text-xs sm:text-sm font-black tracking-tight px-1.5 py-0.5 rounded-md border shadow-2xs ${
-                            isLifetime
-                              ? "bg-indigo-50 text-indigo-700 border-indigo-200"
-                              : "bg-emerald-50 text-emerald-700 border-emerald-200"
-                          }`}
-                        >
-                          {pricing.subtext}
-                        </sup>
-                      </div>
-                      <span className="text-sm sm:text-base text-slate-400 line-through self-center sm:self-baseline">
+                    <div className="flex items-baseline flex-wrap gap-2">
+                      <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+                        {pricing.symbol}{pricing.price}
+                      </span>
+                      <span className="text-sm sm:text-base text-slate-400 line-through">
                         {pricing.symbol}{pricing.originalPrice}
                       </span>
+                      {/* Elevated superscript rate just after 270 / strikethrough text */}
+                      <sup
+                        className={`ml-0.5 -top-2 relative text-xs sm:text-sm font-black tracking-tight px-1.5 py-0.5 rounded-md border shadow-2xs ${
+                          isLifetime
+                            ? "bg-indigo-50 text-indigo-700 border-indigo-200"
+                            : "bg-emerald-50 text-emerald-700 border-emerald-200"
+                        }`}
+                      >
+                        {pricing.subtext}
+                      </sup>
                     </div>
                   </div>
 
