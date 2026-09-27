@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://psgcast.app/sitemap.xml
+Sitemap: https://psgcast.online/sitemap.xml
