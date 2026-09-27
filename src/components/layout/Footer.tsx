@@ -9,6 +9,8 @@ import {
   Cpu,
   Layers,
   CheckCircle2,
+  Cast,
+  Smartphone,
 } from "lucide-react";
 import { SITE_CONFIG } from "@/config/site";
 import { Badge } from "@/components/ui/badge";
@@ -126,6 +128,15 @@ export const Footer: React.FC = () => {
                   <KeyRound className="w-3.5 h-3.5 text-indigo-600" />
                   Activate License
                 </Link>
+              </li>
+              <li>
+                <a
+                  href="/#airplay-permissions"
+                  className="text-slate-600 hover:text-blue-600 transition-colors flex items-center gap-1.5"
+                >
+                  <Cast className="w-3.5 h-3.5 text-blue-600" />
+                  <span>Setup Guide & Permissions</span>
+                </a>
               </li>
               <li>
                 <Link to="/faq" className="text-slate-600 hover:text-blue-600 transition-colors">
