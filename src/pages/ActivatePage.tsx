@@ -79,6 +79,10 @@ export const ActivatePage: React.FC = () => {
         apiService.triggerMacAppDeepLink(res.token, res.customerEmail, res.plan);
         setHasAttemptedAutoLaunch(true);
       }
+    } else if (res.status === "cancelled") {
+      setLookupResult(res);
+      setStatus("cancelled");
+      setErrorMessage(res.message || "Your subscription has been cancelled. Reactivate your subscription to use PSG Cast Pro.");
     } else if (retryCount < 2 && (queryToLookup.startsWith("pay_") || queryToLookup.startsWith("sub_") || queryToLookup.includes("@"))) {
       // If Dodo checkout redirected immediately and webhook is still in transit (1-2s), retry gently
       setTimeout(() => {
@@ -287,6 +291,26 @@ export const ActivatePage: React.FC = () => {
                     View Pricing Plans
                   </Button>
                 </Link>
+              </div>
+            )}
+
+            {/* Status 5: Cancelled */}
+            {status === "cancelled" && (
+              <div className="mt-8 p-6 rounded-2xl bg-amber-50/80 border border-amber-200 space-y-4 animate-in fade-in-50 duration-200">
+                <div className="flex items-center gap-2 text-amber-800 font-bold text-sm">
+                  <AlertTriangle className="w-5 h-5 shrink-0 text-amber-600" />
+                  Subscription Cancelled / Inactive
+                </div>
+                <p className="text-xs text-amber-900 leading-relaxed">
+                  The subscription associated with this account or token has been cancelled. To continue enjoying unlimited 60 FPS low-latency mirroring, please renew your subscription or upgrade to a Lifetime license.
+                </p>
+                <div className="pt-1">
+                  <Link to="/pricing">
+                    <Button variant="gradient" size="sm" className="font-semibold shadow-sm">
+                      Reactivate / View Plans
+                    </Button>
+                  </Link>
+                </div>
               </div>
             )}
           </Card>

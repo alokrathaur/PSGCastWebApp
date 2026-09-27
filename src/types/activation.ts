@@ -1,15 +1,15 @@
-export type ActivationStatus = "idle" | "loading" | "success" | "error" | "expired";
+export type ActivationStatus = "idle" | "loading" | "success" | "error" | "expired" | "cancelled";
 
 export interface LicenseLookupResponse {
   success: boolean;
   token?: string;
   customerEmail?: string;
   customerName?: string;
-  plan?: "lifetime" | "creator" | "pro" | "standard";
+  plan?: "lifetime" | "yearly" | "quarterly" | "creator" | "pro" | "standard";
   maxDevices?: number;
   activeDevicesCount?: number;
   expiresAt?: string | null;
-  status?: "active" | "expired" | "revoked" | "not_found" | "error";
+  status?: "active" | "cancelled" | "expired" | "revoked" | "not_found" | "error";
   message?: string;
 }
 

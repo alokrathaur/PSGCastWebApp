@@ -88,21 +88,21 @@ class ApiService {
       };
     }
 
-    if (upper.startsWith("PSG-PRO-") || upper === "DEMO@PSGCAST.APP" || upper === "PRO@PSGCAST.APP") {
+    if (upper === "PSG-PRO-LIFETIME-DEMO-2026" || upper === "DEMO@PSGCAST.APP") {
       return {
         success: true,
-        token: upper.startsWith("PSG-PRO-") ? upper : "PSG-PRO-LIFETIME-A8F2-99CD-44E1",
-        customerEmail: clean.includes("@") ? clean : "developer@apple.com",
-        customerName: "PSG Cast Pro User",
+        token: "PSG-PRO-LIFETIME-DEMO-2026",
+        customerEmail: clean.includes("@") ? clean : "demo@psgcast.app",
+        customerName: "PSG Cast Demo User",
         plan: "lifetime",
         maxDevices: 1,
         activeDevicesCount: 1,
         status: "active",
-        message: "Active PSG Cast Pro Lifetime license verified.",
+        message: "Active PSG Cast Pro Lifetime Demo license verified.",
       };
     }
 
-    // Real backend request
+    // Real backend request to Cloudflare serverless
     try {
       const endpoint = `${this.baseUrl}/api/license/lookup?query=${encodeURIComponent(clean)}`;
       const res = await fetch(endpoint, {
@@ -115,10 +115,11 @@ class ApiService {
       const data = await res.json().catch(() => null);
 
       if (!res.ok) {
+        const status = data?.status || (res.status === 403 ? "cancelled" : res.status === 404 ? "not_found" : "error");
         return {
           success: false,
-          status: res.status === 404 ? "not_found" : "error",
-          message: data?.message || `Server responded with status ${res.status}. No active license found.`,
+          status,
+          message: data?.message || (res.status === 403 ? "Subscription is cancelled or inactive." : "No active license found."),
         };
       }
 
