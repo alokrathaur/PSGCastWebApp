@@ -204,7 +204,7 @@ export const AirPlayPermissionGuide: React.FC = () => {
                   </div>
 
                   {/* macOS Split View Body */}
-                  <div className="grid grid-cols-12 min-h-[460px]">
+                  <div className="grid grid-cols-12 min-h-[380px]">
                     {/* Left Sidebar */}
                     <div className="col-span-4 bg-[#EBEBEB]/80 border-r border-slate-200/80 p-2.5 flex flex-col justify-between select-none hidden sm:flex">
                       <div className="space-y-1">
@@ -319,55 +319,6 @@ export const AirPlayPermissionGuide: React.FC = () => {
                             >
                               <Minus className="w-3 h-3" />
                             </button>
-                          </div>
-                        </div>
-
-                        {/* System Audio Recording Only Subsection */}
-                        <div className="pt-2 space-y-1">
-                          <h4 className="text-xs font-bold text-slate-900 tracking-tight">
-                            System Audio Recording Only
-                          </h4>
-                          <p className="text-[11px] text-slate-500 leading-normal">
-                            Allow the applications below to access and record your system audio.
-                          </p>
-
-                          <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-xs mt-1.5">
-                            <div className="px-3.5 py-3 flex items-center justify-between">
-                              <div className="flex items-center gap-3">
-                                <img
-                                  src="/assets/icon_app.png"
-                                  alt="PSG Cast Icon"
-                                  onError={(e) => {
-                                    (e.currentTarget as HTMLImageElement).src = "/logo.png";
-                                  }}
-                                  className="w-7 h-7 rounded-lg object-contain shadow-xs border border-slate-200/80 bg-slate-900"
-                                />
-                                <span className="text-xs font-semibold text-slate-900 tracking-tight">
-                                  PSG Cast.app
-                                </span>
-                              </div>
-
-                              <div className="w-10 h-6 bg-[#007AFF] rounded-full p-0.5 flex items-center justify-end shadow-inner cursor-default">
-                                <div className="w-5 h-5 bg-white rounded-full shadow-md shadow-black/20" />
-                              </div>
-                            </div>
-
-                            <div className="px-3 py-1.5 bg-[#F9FAFB] border-t border-slate-100 flex items-center gap-2">
-                              <button
-                                type="button"
-                                className="p-1 rounded text-slate-400 hover:text-slate-600 transition-colors"
-                              >
-                                <Plus className="w-3 h-3" />
-                              </button>
-                              <div className="w-[1px] h-3 bg-slate-200" />
-                              <button
-                                type="button"
-                                className="p-1 rounded text-slate-300"
-                                disabled
-                              >
-                                <Minus className="w-3 h-3" />
-                              </button>
-                            </div>
                           </div>
                         </div>
                       </div>
