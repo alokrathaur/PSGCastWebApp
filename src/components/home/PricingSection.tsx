@@ -130,30 +130,26 @@ export const PricingSection: React.FC = () => {
                     </h3>
                   </div>
 
-                  {/* Pricing Block */}
-                  <div className="space-y-2.5 pb-4 border-b border-slate-100">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900">
-                        {pricing.symbol}{pricing.price}
-                      </span>
-                      <span className="text-base text-slate-400 line-through">
-                        {pricing.symbol}{pricing.originalPrice}
-                      </span>
-                    </div>
-                    <div className="pt-0.5">
-                      <span
-                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-base sm:text-lg font-extrabold tracking-tight border shadow-xs ${
-                          isLifetime
-                            ? "bg-indigo-50 text-indigo-700 border-indigo-200/80"
-                            : "bg-emerald-50 text-emerald-700 border-emerald-200/80"
-                        }`}
-                      >
-                        <span
-                          className={`w-2 h-2 rounded-full shrink-0 ${
-                            isLifetime ? "bg-indigo-500" : "bg-emerald-500 animate-pulse"
+                  {/* Pricing Block: Price with superscript power-style rate */}
+                  <div className="pb-4 border-b border-slate-100">
+                    <div className="flex items-baseline flex-wrap gap-2.5">
+                      <div className="inline-flex items-start">
+                        <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+                          {pricing.symbol}{pricing.price}
+                        </span>
+                        {/* Power of square / superscript styling right after price */}
+                        <sup
+                          className={`ml-1 -top-2 relative text-xs sm:text-sm font-black tracking-tight px-1.5 py-0.5 rounded-md border shadow-2xs ${
+                            isLifetime
+                              ? "bg-indigo-50 text-indigo-700 border-indigo-200"
+                              : "bg-emerald-50 text-emerald-700 border-emerald-200"
                           }`}
-                        />
-                        {pricing.subtext}
+                        >
+                          {pricing.subtext}
+                        </sup>
+                      </div>
+                      <span className="text-sm sm:text-base text-slate-400 line-through self-center sm:self-baseline">
+                        {pricing.symbol}{pricing.originalPrice}
                       </span>
                     </div>
                   </div>

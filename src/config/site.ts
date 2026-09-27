@@ -121,7 +121,7 @@ export const SITE_CONFIG = {
       india: {
         price: 90,
         originalPrice: 270,
-        subtext: "₹1 per day",
+        subtext: "1 Rs/day",
         discount: "67% off",
         currency: "₹",
         symbol: "₹",
@@ -140,7 +140,7 @@ export const SITE_CONFIG = {
       international: {
         price: 1,
         originalPrice: 9,
-        subtext: "Just ~$0.01 per day ($1 for 90 days)",
+        subtext: "$0.01/day",
         discount: "89% off",
         currency: "USD",
         symbol: "$",
@@ -166,7 +166,7 @@ export const SITE_CONFIG = {
       india: {
         price: 299,
         originalPrice: 1080,
-        subtext: "About ₹0.82 per day",
+        subtext: "₹0.82/day",
         discount: "72% off",
         currency: "₹",
         symbol: "₹",
@@ -184,7 +184,7 @@ export const SITE_CONFIG = {
       international: {
         price: 9.99,
         originalPrice: 36,
-        subtext: "About $0.83 per month",
+        subtext: "$0.83/mo",
         discount: "72% off",
         currency: "USD",
         symbol: "$",
@@ -209,7 +209,7 @@ export const SITE_CONFIG = {
       india: {
         price: 999,
         originalPrice: 2999,
-        subtext: "One-time payment",
+        subtext: "One-time",
         discount: "67% off",
         currency: "₹",
         symbol: "₹",
@@ -227,7 +227,7 @@ export const SITE_CONFIG = {
       international: {
         price: 29.99,
         originalPrice: 89.99,
-        subtext: "One-time payment",
+        subtext: "One-time",
         discount: "67% off",
         currency: "USD",
         symbol: "$",
