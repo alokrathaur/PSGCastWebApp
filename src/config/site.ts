@@ -53,8 +53,10 @@ export const SITE_CONFIG = {
   downloadPkgUrl:
     import.meta.env.VITE_DOWNLOAD_PKG_URL ||
     "https://github.com/alokrathaur/PSG-Cast/releases/download/v1.0.0/PSGCast.pkg",
-  apiUrl: import.meta.env.VITE_API_URL || "https://api.psgcast.app",
-  siteUrl: import.meta.env.VITE_SITE_URL || "https://psgcast.app",
+  apiUrl:
+    import.meta.env.VITE_API_URL ||
+    "https://psg-cast-serverless.macmint.workers.dev",
+  siteUrl: import.meta.env.VITE_SITE_URL || "https://psgcast.online",
   supportEmail: import.meta.env.VITE_SUPPORT_EMAIL || "primestategaming@gmail.com",
   twitterUrl: import.meta.env.VITE_TWITTER_URL || "https://x.com/alok8feb",
   youtubeUrl: import.meta.env.VITE_YOUTUBE_URL || "https://www.youtube.com/@PrimeStateGaming",
