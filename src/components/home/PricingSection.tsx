@@ -131,7 +131,7 @@ export const PricingSection: React.FC = () => {
                   </div>
 
                   {/* Pricing Block */}
-                  <div className="space-y-1.5 pb-4 border-b border-slate-100">
+                  <div className="space-y-2.5 pb-4 border-b border-slate-100">
                     <div className="flex items-baseline gap-2">
                       <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900">
                         {pricing.symbol}{pricing.price}
@@ -140,9 +140,22 @@ export const PricingSection: React.FC = () => {
                         {pricing.symbol}{pricing.originalPrice}
                       </span>
                     </div>
-                    <p className="text-xs font-medium text-emerald-600">
-                      {pricing.subtext}
-                    </p>
+                    <div className="pt-0.5">
+                      <span
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-base sm:text-lg font-extrabold tracking-tight border shadow-xs ${
+                          isLifetime
+                            ? "bg-indigo-50 text-indigo-700 border-indigo-200/80"
+                            : "bg-emerald-50 text-emerald-700 border-emerald-200/80"
+                        }`}
+                      >
+                        <span
+                          className={`w-2 h-2 rounded-full shrink-0 ${
+                            isLifetime ? "bg-indigo-500" : "bg-emerald-500 animate-pulse"
+                          }`}
+                        />
+                        {pricing.subtext}
+                      </span>
+                    </div>
                   </div>
 
                   {/* Geo-localized Dodo Payments Description */}
