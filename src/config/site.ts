@@ -131,6 +131,7 @@ export const SITE_CONFIG = {
         description:
           "Unlock PSG Cast Pro for 90 days. Enjoy iPhone screen mirroring on your Mac, seamless connectivity, and premium features for gaming, streaming, presentations, and content creation. Affordable access at just ₹1 per day in India.",
         features: [
+          "Zero Watermark (Clean Screen & OBS Capture)",
           "60 FPS Retina Screen Mirroring (1170×2532)",
           "Ultra-low ~12ms latency direct USB cable mode",
           "Wi-Fi AirPlay receiver mode (port 7001)",
@@ -150,6 +151,7 @@ export const SITE_CONFIG = {
         description:
           "Unlock PSG Cast Pro for 90 days. Enjoy iPhone screen mirroring on your Mac, seamless connectivity, and premium features for gaming, streaming, presentations, and content creation. Affordable access at just ~$0.01 per day ($1 for 90 days).",
         features: [
+          "Zero Watermark (Clean Screen & OBS Capture)",
           "60 FPS Retina Screen Mirroring (1170×2532)",
           "Ultra-low ~12ms latency direct USB cable mode",
           "Wi-Fi AirPlay receiver mode (port 7001)",
