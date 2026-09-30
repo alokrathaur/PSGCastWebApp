@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import {
   Search,
   HelpCircle,
   Mail,
-  ChevronDown,
-  Sparkles,
   ArrowRight,
 } from "lucide-react";
 import { FaqItem } from "@/types/activation";
@@ -100,7 +97,7 @@ export const FAQSection: React.FC = () => {
       category: "activation",
       question: "What should I do before formatting or reinstalling macOS?",
       answer:
-        "If you want to format and reinstall your Mac, please make sure to deactivate your license key first from your Mac (PSG Cast > Preferences > License > Deactivate). Don't worry if you forgot to delete/deactivate it before formatting—simply contact our support team at legendprixai@gmail.com or primestategaming@gmail.com followed by your registered email and invoice receipt or purchased plan name, and we will promptly reset your license key so you can reactivate without issue.",
+        "If you want to format and reinstall your Mac, please make sure to deactivate your license key first from your Mac (PSG Cast → Preferences → License → Deactivate). Don't worry if you forgot to delete/deactivate it before formatting — simply contact our support team at legendprixai@gmail.com or primestategaming@gmail.com followed by your registered email and invoice receipt or purchased plan name, and we will promptly reset your license key so you can reactivate without issue.",
     },
   ];
 
@@ -111,6 +108,7 @@ export const FAQSection: React.FC = () => {
     { id: "obs", label: "OBS & Clean Mode" },
     { id: "activation", label: "Licensing & Tokens" },
     { id: "audio", label: "Audio & Latency" },
+    { id: "privacy", label: "Privacy & Security" },
   ];
 
   const filteredFaqs = faqData.filter((item) => {
@@ -187,7 +185,7 @@ export const FAQSection: React.FC = () => {
           ) : (
             <div className="text-center py-12 p-8 rounded-2xl bg-white border border-slate-200 text-slate-500">
               <HelpCircle className="w-8 h-8 mx-auto text-slate-400 mb-2" />
-              <p className="text-sm">No matching questions found for "{searchTerm}".</p>
+              <p className="text-sm">No matching questions found for &quot;{searchTerm}&quot;.</p>
               <button
                 onClick={() => {
                   setSearchTerm("");
