@@ -31,72 +31,56 @@ export const HeroSection: React.FC = () => {
   const [flashScreenshot, setFlashScreenshot] = useState(false);
   const [simulatedTime, setSimulatedTime] = useState("9:41");
 
-  // Hero Promo Video state & autoplay/mute handling
+  // Hero Promo Video state & autoplay/mute handling (unmuted always by default)
   const promoVideoRef = useRef<HTMLVideoElement>(null);
-  const isBrowser = typeof window !== "undefined";
-  const visits = isBrowser ? parseInt(localStorage.getItem("psg_cast_visit_count") || "0", 10) : 0;
-  const hasPlayedBefore = isBrowser && (localStorage.getItem("psg_cast_promo_played_once") === "true" || visits >= 1);
-
-  // Default to unmuted on first visit (audio on!), muted on 2nd+ visit
-  const [promoMuted, setPromoMuted] = useState(hasPlayedBefore);
+  const [promoMuted, setPromoMuted] = useState(false);
   const [promoPlaying, setPromoPlaying] = useState(true);
-  const userManuallyToggledMute = useRef(false);
+  const userExplicitlyMuted = useRef(false);
 
   useEffect(() => {
     const video = promoVideoRef.current;
     if (!video) return;
 
-    // Increment visit counter
-    if (isBrowser) {
-      localStorage.setItem("psg_cast_visit_count", (visits + 1).toString());
-    }
+    // Unmute always by default
+    video.muted = false;
+    setPromoMuted(false);
 
     const startPlayback = async () => {
-      if (hasPlayedBefore) {
-        // 2nd time page load: audio is muted by default
+      try {
+        await video.play();
+        setPromoPlaying(true);
+      } catch {
+        // Browser autoplay policy blocked unmuted sound without prior user interaction.
+        // Start muted so video frames display and animate immediately, then unmute on first gesture.
         video.muted = true;
         setPromoMuted(true);
         try {
           await video.play();
           setPromoPlaying(true);
         } catch {
-          // If browser requires explicit interaction
-          video.muted = true;
-          video.play().then(() => setPromoPlaying(true)).catch(() => setPromoPlaying(false));
+          setPromoPlaying(false);
         }
-      } else {
-        // 1st time page load: User wants AUDIO ON!
-        video.muted = false;
-        setPromoMuted(false);
-        try {
-          await video.play();
-          setPromoPlaying(true);
-        } catch {
-          // Browser policy blocked unmuted sound on initial page visit.
-          // Fallback immediately to muted so video frames display and animate instantly!
-          video.muted = true;
-          setPromoMuted(true);
-          try {
-            await video.play();
-            setPromoPlaying(true);
-          } catch {
-            setPromoPlaying(false);
+
+        const enableAudioOnGesture = () => {
+          if (video && !userExplicitlyMuted.current) {
+            video.muted = false;
+            setPromoMuted(false);
+            video.play().catch(() => {});
           }
+          cleanupGestureListeners();
+        };
 
-          // Enable audio automatically on the user's very first interaction anywhere on the page
-          const enableAudioOnGesture = () => {
-            if (video && !userManuallyToggledMute.current) {
-              video.muted = false;
-              setPromoMuted(false);
-              video.play().catch(() => {});
-            }
-            window.removeEventListener("pointerdown", enableAudioOnGesture, true);
-            window.removeEventListener("keydown", enableAudioOnGesture, true);
-          };
+        const cleanupGestureListeners = () => {
+          window.removeEventListener("pointerdown", enableAudioOnGesture, true);
+          window.removeEventListener("click", enableAudioOnGesture, true);
+          window.removeEventListener("touchstart", enableAudioOnGesture, true);
+          window.removeEventListener("keydown", enableAudioOnGesture, true);
+        };
 
-          window.addEventListener("pointerdown", enableAudioOnGesture, true);
-          window.addEventListener("keydown", enableAudioOnGesture, true);
-        }
+        window.addEventListener("pointerdown", enableAudioOnGesture, true);
+        window.addEventListener("click", enableAudioOnGesture, true);
+        window.addEventListener("touchstart", enableAudioOnGesture, true);
+        window.addEventListener("keydown", enableAudioOnGesture, true);
       }
     };
 
@@ -104,30 +88,10 @@ export const HeroSection: React.FC = () => {
   }, []);
 
   const handlePromoVideoEnded = () => {
-    // Record that the video has played once
-    if (typeof window !== "undefined") {
-      localStorage.setItem("psg_cast_promo_played_once", "true");
-    }
     const video = promoVideoRef.current;
     if (video) {
-      // After 1 time played, make sure audio is muted on repeat unless user manually unmuted
-      if (!userManuallyToggledMute.current) {
-        video.muted = true;
-        setPromoMuted(true);
-      }
       video.currentTime = 0;
       video.play().then(() => setPromoPlaying(true)).catch(() => {});
-    }
-  };
-
-  const handlePromoTimeUpdate = () => {
-    const video = promoVideoRef.current;
-    if (!video) return;
-    // Mark as played once when reaching near the end
-    if (video.duration > 0 && video.currentTime >= video.duration - 0.5) {
-      if (typeof window !== "undefined") {
-        localStorage.setItem("psg_cast_promo_played_once", "true");
-      }
     }
   };
 
@@ -138,7 +102,7 @@ export const HeroSection: React.FC = () => {
     const nextMuted = !video.muted;
     video.muted = nextMuted;
     setPromoMuted(nextMuted);
-    userManuallyToggledMute.current = true;
+    userExplicitlyMuted.current = nextMuted;
     if (video.paused) {
       video.play().then(() => setPromoPlaying(true)).catch(() => {});
     }
@@ -284,11 +248,10 @@ export const HeroSection: React.FC = () => {
                   src="/psg-cast-promo-16x9.mp4"
                   playsInline
                   autoPlay
+                  loop
                   muted={promoMuted}
                   preload="auto"
                   poster="/assets/promo-poster.jpg"
-                  onEnded={handlePromoVideoEnded}
-                  onTimeUpdate={handlePromoTimeUpdate}
                   onPlay={() => setPromoPlaying(true)}
                   onPause={() => setPromoPlaying(false)}
                   className="w-full h-auto aspect-video object-cover transform transition-transform duration-500 group-hover:scale-[1.005]"
