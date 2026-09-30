@@ -42,7 +42,7 @@ export const SITE_CONFIG = {
   minMacOSVersion: "macOS 14.0 (Sonoma) or newer",
   architecture: "Universal Binary (Apple Silicon M1/M2/M3/M4 & Intel Core 64-bit)",
   minIOSVersion: "iOS 12.0 or iPadOS 12.0 or newer",
-  sha256Dmg: "a9b2a4f5ae144a4a47ae7fd513f9a5293265a607a2fd9a11d3e3b6ef1f1644e5",
+  sha256Dmg: "45afb186b6474f5ee178aa5c440fc37e255559dd132debbcfcef74c634e81027",
   dmgSize: "9.8 MB",
   deepLinkScheme: "psgcast",
   
