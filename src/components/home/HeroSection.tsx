@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   Download,
@@ -10,6 +10,8 @@ import {
   CircleDot,
   Volume2,
   VolumeX,
+  Play,
+  Pause,
   Maximize2,
   Sparkles,
   ShieldCheck,
@@ -28,6 +30,113 @@ export const HeroSection: React.FC = () => {
   const [cleanCapture, setCleanCapture] = useState(false);
   const [flashScreenshot, setFlashScreenshot] = useState(false);
   const [simulatedTime, setSimulatedTime] = useState("9:41");
+
+  // Hero Promo Video state & autoplay/mute handling
+  const promoVideoRef = useRef<HTMLVideoElement>(null);
+  const [promoMuted, setPromoMuted] = useState(true);
+  const [promoPlaying, setPromoPlaying] = useState(true);
+  const userManuallyEnabledAudio = useRef(false);
+
+  useEffect(() => {
+    const video = promoVideoRef.current;
+    if (!video) return;
+
+    const isBrowser = typeof window !== "undefined";
+    const visits = isBrowser ? parseInt(localStorage.getItem("psg_cast_visit_count") || "0", 10) : 0;
+    const hasPlayedBefore = isBrowser && (localStorage.getItem("psg_cast_promo_played_once") === "true" || visits >= 1);
+    
+    // Increment visit counter
+    if (isBrowser) {
+      localStorage.setItem("psg_cast_visit_count", (visits + 1).toString());
+    }
+
+    if (hasPlayedBefore) {
+      // 2nd time page load or after 1 time played: make sure audio is muted
+      video.muted = true;
+      setPromoMuted(true);
+      video.play().then(() => {
+        setPromoPlaying(true);
+      }).catch(() => {
+        setPromoPlaying(false);
+      });
+    } else {
+      // 1st time page load: attempt to play with audio if allowed by browser policy
+      video.muted = false;
+      setPromoMuted(false);
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setPromoPlaying(true);
+          })
+          .catch(() => {
+            // Browser autoplay policy blocked unmuted sound on initial page visit
+            // Fallback immediately to muted autoplay so it plays automatically on load
+            video.muted = true;
+            setPromoMuted(true);
+            video.play().then(() => {
+              setPromoPlaying(true);
+            }).catch(() => {
+              setPromoPlaying(false);
+            });
+          });
+      }
+    }
+  }, []);
+
+  const handlePromoVideoEnded = () => {
+    // Record that the video has played once
+    if (typeof window !== "undefined") {
+      localStorage.setItem("psg_cast_promo_played_once", "true");
+    }
+    const video = promoVideoRef.current;
+    if (video) {
+      // After 1 time played, make sure audio is muted on repeat unless user manually unmuted
+      if (!userManuallyEnabledAudio.current) {
+        video.muted = true;
+        setPromoMuted(true);
+      }
+      video.currentTime = 0;
+      video.play().then(() => setPromoPlaying(true)).catch(() => {});
+    }
+  };
+
+  const handlePromoTimeUpdate = () => {
+    const video = promoVideoRef.current;
+    if (!video) return;
+    // Mark as played once when reaching near the end
+    if (video.duration > 0 && video.currentTime >= video.duration - 0.5) {
+      if (typeof window !== "undefined") {
+        localStorage.setItem("psg_cast_promo_played_once", "true");
+      }
+    }
+  };
+
+  const togglePromoAudio = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const video = promoVideoRef.current;
+    if (!video) return;
+    const nextMuted = !video.muted;
+    video.muted = nextMuted;
+    setPromoMuted(nextMuted);
+    if (!nextMuted) {
+      userManuallyEnabledAudio.current = true;
+    }
+    if (video.paused) {
+      video.play().then(() => setPromoPlaying(true)).catch(() => {});
+    }
+  };
+
+  const togglePromoPlayback = () => {
+    const video = promoVideoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play().then(() => setPromoPlaying(true)).catch(() => {});
+    } else {
+      video.pause();
+      setPromoPlaying(false);
+    }
+  };
 
   // Keep clock updated in phone status bar
   useEffect(() => {
@@ -131,36 +240,92 @@ export const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Mirror Image (Right-aligned, Uncropped) */}
+          {/* Right Column: High-Performance Promo Video Showcase */}
           <div className="lg:col-span-6 relative flex justify-center lg:justify-end">
             <div className="relative w-full max-w-[640px] group">
               {/* Soft Ambient Radial Glow */}
               <div className="absolute -inset-4 bg-gradient-to-tr from-blue-400/20 via-indigo-300/15 to-purple-400/20 rounded-3xl blur-2xl opacity-80 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
               {/* Floating Status Badges */}
-              <div className="absolute -top-3 right-6 z-20 hidden sm:flex items-center gap-2 bg-white/95 backdrop-blur-md border border-slate-200/90 px-3.5 py-1.5 rounded-full shadow-lg text-xs font-semibold text-slate-800">
+              <div className="absolute -top-3 right-6 z-30 hidden sm:flex items-center gap-2 bg-white/95 backdrop-blur-md border border-slate-200/90 px-3.5 py-1.5 rounded-full shadow-lg text-xs font-semibold text-slate-800 pointer-events-none">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>Apple Metal 3 • 60 FPS Sync</span>
               </div>
 
-              <div className="absolute -bottom-3 left-6 z-20 hidden sm:flex items-center gap-2 bg-slate-900/95 backdrop-blur-md border border-slate-700/80 px-3.5 py-1.5 rounded-full shadow-xl text-xs font-medium text-slate-200">
+              <div className="absolute -bottom-3 left-6 z-30 hidden sm:flex items-center gap-2 bg-slate-900/95 backdrop-blur-md border border-slate-700/80 px-3.5 py-1.5 rounded-full shadow-xl text-xs font-medium text-slate-200 pointer-events-none">
                 <Zap className="w-3.5 h-3.5 text-amber-400" />
                 <span>Direct USB & AirPlay (~12ms)</span>
               </div>
 
-              {/* High-Resolution Uncropped Mirror Showcase */}
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-indigo-950/10 border border-slate-200/70 bg-white">
-                <picture>
-                  <source srcSet="/assets/hero-mirror-showcase.webp" type="image/webp" />
-                  <img
-                    src="/assets/hero-mirror-showcase.png"
-                    alt="PSG Cast — iPhone to Mac Screen Mirroring at 60 FPS"
-                    className="w-full h-auto object-contain transform transition-transform duration-500 group-hover:scale-[1.01]"
-                    loading="eager"
-                    width={1376}
-                    height={818}
-                  />
-                </picture>
+              {/* High-Resolution Video Player Showcase */}
+              <div
+                onClick={togglePromoPlayback}
+                className="relative rounded-2xl overflow-hidden shadow-2xl shadow-indigo-950/15 border border-slate-200/80 bg-slate-950 cursor-pointer select-none group"
+              >
+                <video
+                  ref={promoVideoRef}
+                  src="/psg-cast-promo-16x9.mp4"
+                  playsInline
+                  autoPlay
+                  preload="auto"
+                  poster="/assets/hero-mirror-showcase.webp"
+                  onEnded={handlePromoVideoEnded}
+                  onTimeUpdate={handlePromoTimeUpdate}
+                  onPlay={() => setPromoPlaying(true)}
+                  onPause={() => setPromoPlaying(false)}
+                  className="w-full h-auto aspect-video object-cover transform transition-transform duration-500 group-hover:scale-[1.005]"
+                />
+
+                {/* Subtle Edge Vignette */}
+                <div className="absolute inset-0 ring-1 ring-inset ring-black/10 pointer-events-none rounded-2xl" />
+
+                {/* Floating Interactive Audio Toggle Button */}
+                <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-20 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={togglePromoAudio}
+                    className={`flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-semibold backdrop-blur-md transition-all duration-200 shadow-xl ${
+                      promoMuted
+                        ? "bg-slate-950/85 hover:bg-slate-900 text-white border border-white/20 hover:border-white/40 ring-1 ring-black/30"
+                        : "bg-blue-600/95 hover:bg-blue-600 text-white border border-blue-400/40 shadow-blue-500/30"
+                    }`}
+                    title={promoMuted ? "Click to enable sound" : "Click to mute sound"}
+                    aria-label={promoMuted ? "Unmute audio" : "Mute audio"}
+                  >
+                    {promoMuted ? (
+                      <>
+                        <VolumeX className="w-4 h-4 text-rose-300 animate-pulse" />
+                        <span className="text-xs font-medium tracking-tight">Unmute Sound</span>
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 className="w-4 h-4 text-emerald-300" />
+                        <span className="text-xs font-medium tracking-tight">Sound On</span>
+                        {/* Audio equalizer wave micro-animation */}
+                        <span className="flex items-center gap-0.5 ml-1 h-3">
+                          <span className="w-0.5 h-2 bg-emerald-300 animate-bounce" style={{ animationDelay: '0ms' }} />
+                          <span className="w-0.5 h-3 bg-emerald-300 animate-bounce" style={{ animationDelay: '150ms' }} />
+                          <span className="w-0.5 h-1.5 bg-emerald-300 animate-bounce" style={{ animationDelay: '300ms' }} />
+                        </span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {/* Center Play/Pause indicator on hover or when paused */}
+                <div
+                  className={`absolute inset-0 flex items-center justify-center bg-black/25 backdrop-blur-[1px] transition-opacity duration-200 pointer-events-none ${
+                    promoPlaying ? "opacity-0 group-hover:opacity-100" : "opacity-100"
+                  }`}
+                >
+                  <div className="w-14 h-14 rounded-full bg-slate-900/80 border border-white/20 text-white flex items-center justify-center shadow-2xl backdrop-blur-md">
+                    {promoPlaying ? (
+                      <Pause className="w-6 h-6 fill-white text-white" />
+                    ) : (
+                      <Play className="w-6 h-6 fill-white text-white ml-1" />
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
