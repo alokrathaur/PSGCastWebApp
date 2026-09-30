@@ -38,11 +38,20 @@ export const HeroSection: React.FC = () => {
   const userExplicitlyMuted = useRef(false);
 
   useEffect(() => {
+    // Clear any previous visit/played counters from localStorage so audio is never auto-muted
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.removeItem("psg_cast_visit_count");
+        localStorage.removeItem("psg_cast_promo_played_once");
+      } catch {}
+    }
+
     const video = promoVideoRef.current;
     if (!video) return;
 
-    // Unmute always by default
+    // Unmute always by default and set full volume
     video.muted = false;
+    video.volume = 1.0;
     setPromoMuted(false);
 
     const startPlayback = async () => {
@@ -50,10 +59,9 @@ export const HeroSection: React.FC = () => {
         await video.play();
         setPromoPlaying(true);
       } catch {
-        // Browser autoplay policy blocked unmuted sound without prior user interaction.
-        // Start muted so video frames display and animate immediately, then unmute on first gesture.
+        // Modern browser policy blocked unmuted sound on initial page visit before user interaction.
+        // Start muted so video frames display and animate immediately without delay.
         video.muted = true;
-        setPromoMuted(true);
         try {
           await video.play();
           setPromoPlaying(true);
@@ -61,9 +69,18 @@ export const HeroSection: React.FC = () => {
           setPromoPlaying(false);
         }
 
-        const enableAudioOnGesture = () => {
-          if (video && !userExplicitlyMuted.current) {
+        // Keep promoMuted as false because user wants audio UNMUTED by default.
+        // As soon as the user interacts anywhere on the page, unmute immediately!
+        const enableAudioOnGesture = (e: Event) => {
+          const target = e.target as HTMLElement | null;
+          // If the user clicked the audio toggle button directly, let togglePromoAudio handle it
+          if (target && target.closest('[data-audio-button="true"]')) {
+            return;
+          }
+          if (userExplicitlyMuted.current) return;
+          if (video) {
             video.muted = false;
+            video.volume = 1.0;
             setPromoMuted(false);
             video.play().catch(() => {});
           }
@@ -75,42 +92,64 @@ export const HeroSection: React.FC = () => {
           window.removeEventListener("click", enableAudioOnGesture, true);
           window.removeEventListener("touchstart", enableAudioOnGesture, true);
           window.removeEventListener("keydown", enableAudioOnGesture, true);
+          window.removeEventListener("scroll", enableAudioOnGesture, true);
+          window.removeEventListener("wheel", enableAudioOnGesture, true);
         };
 
         window.addEventListener("pointerdown", enableAudioOnGesture, true);
         window.addEventListener("click", enableAudioOnGesture, true);
         window.addEventListener("touchstart", enableAudioOnGesture, true);
         window.addEventListener("keydown", enableAudioOnGesture, true);
+        window.addEventListener("scroll", enableAudioOnGesture, true);
+        window.addEventListener("wheel", enableAudioOnGesture, true);
       }
     };
 
     startPlayback();
   }, []);
 
-  const handlePromoVideoEnded = () => {
-    const video = promoVideoRef.current;
-    if (video) {
-      video.currentTime = 0;
-      video.play().then(() => setPromoPlaying(true)).catch(() => {});
-    }
-  };
-
   const togglePromoAudio = (e: React.MouseEvent) => {
     e.stopPropagation();
+    e.preventDefault();
     const video = promoVideoRef.current;
     if (!video) return;
-    const nextMuted = !video.muted;
-    video.muted = nextMuted;
-    setPromoMuted(nextMuted);
-    userExplicitlyMuted.current = nextMuted;
-    if (video.paused) {
-      video.play().then(() => setPromoPlaying(true)).catch(() => {});
+
+    const isCurrentlyMuted = promoMuted || video.muted;
+
+    if (isCurrentlyMuted) {
+      // User explicitly clicked to unmute!
+      video.muted = false;
+      video.volume = 1.0;
+      setPromoMuted(false);
+      userExplicitlyMuted.current = false;
+      if (video.paused) {
+        video.play().then(() => setPromoPlaying(true)).catch(() => {});
+      }
+    } else {
+      // User explicitly clicked to mute!
+      video.muted = true;
+      setPromoMuted(true);
+      userExplicitlyMuted.current = true;
     }
   };
 
-  const togglePromoPlayback = () => {
+  const handleShowcaseClick = () => {
     const video = promoVideoRef.current;
     if (!video) return;
+
+    // If video is muted (e.g. waiting for user gesture), clicking the showcase un-mutes it!
+    if (video.muted || promoMuted) {
+      video.muted = false;
+      video.volume = 1.0;
+      setPromoMuted(false);
+      userExplicitlyMuted.current = false;
+      if (video.paused) {
+        video.play().then(() => setPromoPlaying(true)).catch(() => {});
+      }
+      return;
+    }
+
+    // Toggle play / pause if already unmuted
     if (video.paused) {
       video.play().then(() => setPromoPlaying(true)).catch(() => {});
     } else {
@@ -240,7 +279,7 @@ export const HeroSection: React.FC = () => {
 
               {/* High-Resolution Video Player Showcase */}
               <div
-                onClick={togglePromoPlayback}
+                onClick={handleShowcaseClick}
                 className="relative rounded-2xl overflow-hidden shadow-2xl shadow-indigo-950/15 border border-slate-200/80 bg-slate-950 cursor-pointer select-none group"
               >
                 <video
@@ -264,6 +303,7 @@ export const HeroSection: React.FC = () => {
                 <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-20 flex items-center gap-2">
                   <button
                     type="button"
+                    data-audio-button="true"
                     onClick={togglePromoAudio}
                     className={`flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-semibold backdrop-blur-md transition-all duration-200 shadow-xl ${
                       promoMuted
