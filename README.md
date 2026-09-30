@@ -138,7 +138,7 @@ VITE_API_URL="https://api.psgcast.app"
 
 # macOS App Binary Downloads
 VITE_APP_VERSION="1.0.0"
-VITE_DOWNLOAD_DMG_URL="https://github.com/alokrathaur/PSG-Cast/releases/download/v1.0.0/PSGCast.dmg"
+VITE_DOWNLOAD_DMG_URL="https://github.com/alokrathaur/PSG-Cast/releases/download/v1.0.0/PSG%20Cast.dmg"
 VITE_DOWNLOAD_PKG_URL="https://github.com/alokrathaur/PSG-Cast/releases/download/v1.0.0/PSGCast.pkg"
 
 # Support & Socials

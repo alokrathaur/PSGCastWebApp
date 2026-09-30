@@ -116,7 +116,7 @@ export const DownloadPage: React.FC = () => {
               </div>
               <h4 className="text-base font-bold text-slate-900">Download DMG</h4>
               <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                Click the download button above to get the latest <code>PSGCast.dmg</code> file for your Mac.
+                Click the download button above to get the latest <code>PSG Cast.dmg</code> file for your Mac.
               </p>
             </div>
 
