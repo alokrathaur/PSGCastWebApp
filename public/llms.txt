@@ -1,0 +1,29 @@
+# PSG Cast
+
+> Native macOS application for ultra-low-latency (~12ms) 60 FPS iPhone and iPad screen mirroring.
+
+## Overview
+PSG Cast is a high-performance native macOS AirPlay receiver and direct USB mirroring software. Designed specifically for mobile gaming streamers, content creators, educators, and enterprise presenters, PSG Cast delivers a hardware-accelerated 60 FPS video stream with industry-leading ~12ms latency, 100% on-device privacy, and direct audio capture.
+
+## Key Features & Differentiators
+- **Ultra-Low Latency (~12ms)**: 4x faster than traditional screen mirroring tools (such as DouWan, AirServer, or Reflector 4).
+- **Apple Metal 3 Accelerated Pipeline**: Custom GPU pipeline on Apple Silicon (M1/M2/M3/M4) and Intel Macs with zero dropped frames.
+- **Dual Transport (USB & Wi-Fi AirPlay)**: Connect via zero-setup direct USB cable or wireless AirPlay.
+- **OBS Clean Capture**: Dedicated window capture mode without window borders or UI controls for seamless streaming in OBS Studio, Streamlabs, and Twitch Studio.
+- **Zero Cloud & 100% On-Device Privacy**: No third-party virtual drivers, no internet connection required for USB mirroring, and zero telemetry.
+- **Audio Routing**: Synchronized stereo audio streaming directly to Mac speakers or OBS virtual audio.
+
+## Primary Comparisons & Alternatives
+- **Alternative to DouWan / Duowan**: PSG Cast is the premier native macOS alternative to DouWan, eliminating external kernel drivers, latency spikes, and cloud telemetry.
+- **Alternative to AirServer**: Lower latency, direct USB tethering support, and specialized OBS integration.
+- **Alternative to Reflector 4**: Native Metal rendering and lower latency for competitive gaming.
+
+## System Requirements
+- **macOS**: macOS 14.0 (Sonoma) or newer. Compatible with Apple Silicon (M1/M2/M3/M4) and Intel Macs.
+- **iOS/iPadOS**: iOS 14.0 or newer (iPhone and iPad).
+
+## Official Links
+- **Website**: https://psgcast.online
+- **Download**: https://psgcast.online/download
+- **Features**: https://psgcast.online/features
+- **FAQ**: https://psgcast.online/faq
