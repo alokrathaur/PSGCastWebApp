@@ -95,6 +95,13 @@ export const FAQSection: React.FC = () => {
       answer:
         "Absolutely not. PSG Cast is 100% on-device software. All video encoding, decoding, texture mapping, and frame captures take place locally on your Mac's unified memory and GPU. No telemetry or video streams are ever transmitted across external servers.",
     },
+    {
+      id: "faq-mac-format-license",
+      category: "activation",
+      question: "What should I do before formatting or reinstalling macOS?",
+      answer:
+        "If you want to format and reinstall your Mac, please make sure to deactivate your license key first from your Mac (PSG Cast > Preferences > License > Deactivate). Don't worry if you forgot to delete/deactivate it before formatting—simply contact our support team at legendprixai@gmail.com or primestategaming@gmail.com followed by your registered email and invoice receipt or purchased plan name, and we will promptly reset your license key so you can reactivate without issue.",
+    },
   ];
 
   const categories = [

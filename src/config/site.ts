@@ -42,8 +42,8 @@ export const SITE_CONFIG = {
   minMacOSVersion: "macOS 14.0 (Sonoma) or newer",
   architecture: "Universal Binary (Apple Silicon M1/M2/M3/M4 & Intel Core 64-bit)",
   minIOSVersion: "iOS 12.0 or iPadOS 12.0 or newer",
-  sha256Dmg: "94b9244eca677b4c86be56cfd02ad123fc3853ff173a6922878a99556bd29d91",
-  dmgSize: "4.0 MB",
+  sha256Dmg: "25a6a4fc20adf991146d5004ba15c665b9f0632c7668b64085557959c92cdfb9",
+  dmgSize: "9.8 MB",
   deepLinkScheme: "psgcast",
   
   // Configurable URLs via env

@@ -100,6 +100,13 @@ export const FAQPage: React.FC = () => {
       answer:
         "Press ⌘D (Command + D) to show or hide the floating diagnostics overlay. The HUD displays real-time metrics including moving-average FPS (30–60), stream resolution (e.g. 1170×2532), estimated end-to-end latency, bitrate throughput, and frame drop counter.",
     },
+    {
+      id: "faq-mac-format-license",
+      category: "activation",
+      question: "What should I do before formatting or reinstalling macOS?",
+      answer:
+        "If you want to format and reinstall your Mac, please make sure to deactivate your license key first from your Mac (PSG Cast > Preferences > License > Deactivate). Don't worry if you forgot to delete/deactivate it before formatting—simply contact our support team at legendprixai@gmail.com or primestategaming@gmail.com followed by your registered email and invoice receipt or purchased plan name, and we will promptly reset your license key so you can reactivate without issue.",
+    },
   ];
 
   const categories = [
