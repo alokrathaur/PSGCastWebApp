@@ -33,55 +33,74 @@ export const HeroSection: React.FC = () => {
 
   // Hero Promo Video state & autoplay/mute handling
   const promoVideoRef = useRef<HTMLVideoElement>(null);
-  const [promoMuted, setPromoMuted] = useState(true);
+  const isBrowser = typeof window !== "undefined";
+  const visits = isBrowser ? parseInt(localStorage.getItem("psg_cast_visit_count") || "0", 10) : 0;
+  const hasPlayedBefore = isBrowser && (localStorage.getItem("psg_cast_promo_played_once") === "true" || visits >= 1);
+
+  // Default to unmuted on first visit (audio on!), muted on 2nd+ visit
+  const [promoMuted, setPromoMuted] = useState(hasPlayedBefore);
   const [promoPlaying, setPromoPlaying] = useState(true);
-  const userManuallyEnabledAudio = useRef(false);
+  const userManuallyToggledMute = useRef(false);
 
   useEffect(() => {
     const video = promoVideoRef.current;
     if (!video) return;
 
-    const isBrowser = typeof window !== "undefined";
-    const visits = isBrowser ? parseInt(localStorage.getItem("psg_cast_visit_count") || "0", 10) : 0;
-    const hasPlayedBefore = isBrowser && (localStorage.getItem("psg_cast_promo_played_once") === "true" || visits >= 1);
-    
     // Increment visit counter
     if (isBrowser) {
       localStorage.setItem("psg_cast_visit_count", (visits + 1).toString());
     }
 
-    if (hasPlayedBefore) {
-      // 2nd time page load or after 1 time played: make sure audio is muted
-      video.muted = true;
-      setPromoMuted(true);
-      video.play().then(() => {
-        setPromoPlaying(true);
-      }).catch(() => {
-        setPromoPlaying(false);
-      });
-    } else {
-      // 1st time page load: attempt to play with audio if allowed by browser policy
-      video.muted = false;
-      setPromoMuted(false);
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
+    const startPlayback = async () => {
+      if (hasPlayedBefore) {
+        // 2nd time page load: audio is muted by default
+        video.muted = true;
+        setPromoMuted(true);
+        try {
+          await video.play();
+          setPromoPlaying(true);
+        } catch {
+          // If browser requires explicit interaction
+          video.muted = true;
+          video.play().then(() => setPromoPlaying(true)).catch(() => setPromoPlaying(false));
+        }
+      } else {
+        // 1st time page load: User wants AUDIO ON!
+        video.muted = false;
+        setPromoMuted(false);
+        try {
+          await video.play();
+          setPromoPlaying(true);
+        } catch {
+          // Browser policy blocked unmuted sound on initial page visit.
+          // Fallback immediately to muted so video frames display and animate instantly!
+          video.muted = true;
+          setPromoMuted(true);
+          try {
+            await video.play();
             setPromoPlaying(true);
-          })
-          .catch(() => {
-            // Browser autoplay policy blocked unmuted sound on initial page visit
-            // Fallback immediately to muted autoplay so it plays automatically on load
-            video.muted = true;
-            setPromoMuted(true);
-            video.play().then(() => {
-              setPromoPlaying(true);
-            }).catch(() => {
-              setPromoPlaying(false);
-            });
-          });
+          } catch {
+            setPromoPlaying(false);
+          }
+
+          // Enable audio automatically on the user's very first interaction anywhere on the page
+          const enableAudioOnGesture = () => {
+            if (video && !userManuallyToggledMute.current) {
+              video.muted = false;
+              setPromoMuted(false);
+              video.play().catch(() => {});
+            }
+            window.removeEventListener("pointerdown", enableAudioOnGesture, true);
+            window.removeEventListener("keydown", enableAudioOnGesture, true);
+          };
+
+          window.addEventListener("pointerdown", enableAudioOnGesture, true);
+          window.addEventListener("keydown", enableAudioOnGesture, true);
+        }
       }
-    }
+    };
+
+    startPlayback();
   }, []);
 
   const handlePromoVideoEnded = () => {
@@ -92,7 +111,7 @@ export const HeroSection: React.FC = () => {
     const video = promoVideoRef.current;
     if (video) {
       // After 1 time played, make sure audio is muted on repeat unless user manually unmuted
-      if (!userManuallyEnabledAudio.current) {
+      if (!userManuallyToggledMute.current) {
         video.muted = true;
         setPromoMuted(true);
       }
@@ -119,9 +138,7 @@ export const HeroSection: React.FC = () => {
     const nextMuted = !video.muted;
     video.muted = nextMuted;
     setPromoMuted(nextMuted);
-    if (!nextMuted) {
-      userManuallyEnabledAudio.current = true;
-    }
+    userManuallyToggledMute.current = true;
     if (video.paused) {
       video.play().then(() => setPromoPlaying(true)).catch(() => {});
     }
@@ -267,8 +284,9 @@ export const HeroSection: React.FC = () => {
                   src="/psg-cast-promo-16x9.mp4"
                   playsInline
                   autoPlay
+                  muted={promoMuted}
                   preload="auto"
-                  poster="/assets/hero-mirror-showcase.webp"
+                  poster="/assets/promo-poster.jpg"
                   onEnded={handlePromoVideoEnded}
                   onTimeUpdate={handlePromoTimeUpdate}
                   onPlay={() => setPromoPlaying(true)}
