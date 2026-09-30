@@ -10,6 +10,7 @@ import {
   CircleDot,
   Volume2,
   VolumeX,
+  Play,
   Maximize2,
   Sparkles,
   ShieldCheck,
@@ -33,6 +34,8 @@ export const HeroSection: React.FC = () => {
   const promoVideoRef = useRef<HTMLVideoElement>(null);
   const [promoMuted, setPromoMuted] = useState(false);
   const userExplicitlyMuted = useRef(false);
+  // Shown when the browser blocks autoplay with sound; one click starts the video with sound
+  const [showSoundOverlay, setShowSoundOverlay] = useState(false);
 
   useEffect(() => {
     // Clear any previous visit/played counters from localStorage so audio is never auto-muted
@@ -49,7 +52,10 @@ export const HeroSection: React.FC = () => {
     const gestureEvents = ["pointerdown", "mousedown", "touchend", "keydown", "click"] as const;
 
     // Keep the button in sync with the element's real muted state
-    const syncMuted = () => setPromoMuted(video.muted);
+    const syncMuted = () => {
+      setPromoMuted(video.muted);
+      if (!video.muted) setShowSoundOverlay(false);
+    };
     video.addEventListener("volumechange", syncMuted);
 
     const cleanupGestureListeners = () => {
@@ -77,6 +83,7 @@ export const HeroSection: React.FC = () => {
         // Autoplay with sound blocked until the user interacts: play muted so frames animate,
         // then restore sound on the very first interaction anywhere on the page.
         video.muted = true;
+        setShowSoundOverlay(true);
         video.play().catch(() => {});
         gestureEvents.forEach((evt) => window.addEventListener(evt, unmuteOnGesture, true));
       }
@@ -90,6 +97,19 @@ export const HeroSection: React.FC = () => {
       video.removeEventListener("volumechange", syncMuted);
     };
   }, []);
+
+  const playWithSound = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const video = promoVideoRef.current;
+    if (!video) return;
+    userExplicitlyMuted.current = false;
+    video.currentTime = 0;
+    video.muted = false;
+    video.volume = 1.0;
+    setShowSoundOverlay(false);
+    video.play().catch(() => {});
+  };
 
   const togglePromoAudio = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -227,7 +247,7 @@ export const HeroSection: React.FC = () => {
                 <span>Direct USB & AirPlay (~12ms)</span>
               </div>
 
-              {/* High-Resolution Video Player Showcase (CLEAN, ZERO OVERLAYS) */}
+              {/* High-Resolution Video Player Showcase */}
               <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-indigo-950/15 border border-slate-200/80 bg-slate-950">
                 <video
                   ref={promoVideoRef}
@@ -240,6 +260,25 @@ export const HeroSection: React.FC = () => {
                   onClick={togglePromoAudio}
                   className="w-full h-auto aspect-video object-cover cursor-pointer block"
                 />
+
+                {showSoundOverlay && (
+                  <button
+                    type="button"
+                    data-promo-audio
+                    onClick={playWithSound}
+                    aria-label="Play video with sound"
+                    className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-slate-950/45 backdrop-blur-[2px] text-white transition-colors hover:bg-slate-950/35 group/play"
+                  >
+                    <span className="relative flex items-center justify-center w-20 h-20 rounded-full bg-blue-600 shadow-2xl shadow-blue-500/40 transition-transform group-hover/play:scale-110">
+                      <span className="absolute inset-0 rounded-full bg-blue-500/60 animate-ping" />
+                      <Play className="relative w-9 h-9 ml-1 fill-white" />
+                    </span>
+                    <span className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-slate-900/80 border border-white/15 text-sm font-semibold">
+                      <Volume2 className="w-4 h-4 text-emerald-400" />
+                      Play with sound
+                    </span>
+                  </button>
+                )}
               </div>
 
               {/* Floating Interactive Audio Toggle Badge (Outside video, zero overlay obstruction) */}
